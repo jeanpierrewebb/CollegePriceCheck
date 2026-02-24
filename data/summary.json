@@ -1,0 +1,224 @@
+{
+  "total": 1983,
+  "by_state": [
+    {
+      "state": "NY",
+      "count": 168
+    },
+    {
+      "state": "CA",
+      "count": 148
+    },
+    {
+      "state": "PA",
+      "count": 120
+    },
+    {
+      "state": "TX",
+      "count": 100
+    },
+    {
+      "state": "OH",
+      "count": 80
+    },
+    {
+      "state": "FL",
+      "count": 75
+    },
+    {
+      "state": "MA",
+      "count": 72
+    },
+    {
+      "state": "IL",
+      "count": 70
+    },
+    {
+      "state": "NC",
+      "count": 63
+    },
+    {
+      "state": "GA",
+      "count": 56
+    },
+    {
+      "state": "MO",
+      "count": 55
+    },
+    {
+      "state": "VA",
+      "count": 54
+    },
+    {
+      "state": "IN",
+      "count": 49
+    },
+    {
+      "state": "NJ",
+      "count": 48
+    },
+    {
+      "state": "MI",
+      "count": 46
+    },
+    {
+      "state": "PR",
+      "count": 43
+    },
+    {
+      "state": "TN",
+      "count": 43
+    },
+    {
+      "state": "MN",
+      "count": 39
+    },
+    {
+      "state": "SC",
+      "count": 37
+    },
+    {
+      "state": "WI",
+      "count": 37
+    },
+    {
+      "state": "AL",
+      "count": 33
+    },
+    {
+      "state": "IA",
+      "count": 32
+    },
+    {
+      "state": "MD",
+      "count": 32
+    },
+    {
+      "state": "KY",
+      "count": 31
+    },
+    {
+      "state": "WA",
+      "count": 29
+    },
+    {
+      "state": "KS",
+      "count": 28
+    },
+    {
+      "state": "LA",
+      "count": 28
+    },
+    {
+      "state": "CT",
+      "count": 27
+    },
+    {
+      "state": "OK",
+      "count": 26
+    },
+    {
+      "state": "OR",
+      "count": 26
+    },
+    {
+      "state": "CO",
+      "count": 25
+    },
+    {
+      "state": "AR",
+      "count": 24
+    },
+    {
+      "state": "NE",
+      "count": 22
+    },
+    {
+      "state": "AZ",
+      "count": 21
+    },
+    {
+      "state": "WV",
+      "count": 20
+    },
+    {
+      "state": "ME",
+      "count": 17
+    },
+    {
+      "state": "MS",
+      "count": 16
+    },
+    {
+      "state": "NH",
+      "count": 14
+    },
+    {
+      "state": "SD",
+      "count": 14
+    },
+    {
+      "state": "UT",
+      "count": 14
+    },
+    {
+      "state": "DC",
+      "count": 12
+    },
+    {
+      "state": "NM",
+      "count": 11
+    },
+    {
+      "state": "RI",
+      "count": 11
+    },
+    {
+      "state": "ID",
+      "count": 10
+    },
+    {
+      "state": "MT",
+      "count": 9
+    },
+    {
+      "state": "ND",
+      "count": 9
+    },
+    {
+      "state": "NV",
+      "count": 9
+    },
+    {
+      "state": "VT",
+      "count": 9
+    },
+    {
+      "state": "HI",
+      "count": 8
+    },
+    {
+      "state": "DE",
+      "count": 5
+    },
+    {
+      "state": "AK",
+      "count": 4
+    },
+    {
+      "state": "GU",
+      "count": 2
+    },
+    {
+      "state": "VI",
+      "count": 1
+    },
+    {
+      "state": "WY",
+      "count": 1
+    }
+  ],
+  "has_net_price": 1694,
+  "has_debt": 1783,
+  "has_completion": 1751
+}
