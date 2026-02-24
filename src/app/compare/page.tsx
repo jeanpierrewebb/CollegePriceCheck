@@ -24,6 +24,61 @@ interface School {
   'latest.completion.rate_suppressed.four_year': number | null;
 }
 
+const US_STATES = [
+  { code: '', name: 'Select your state' },
+  { code: 'AL', name: 'Alabama' },
+  { code: 'AK', name: 'Alaska' },
+  { code: 'AZ', name: 'Arizona' },
+  { code: 'AR', name: 'Arkansas' },
+  { code: 'CA', name: 'California' },
+  { code: 'CO', name: 'Colorado' },
+  { code: 'CT', name: 'Connecticut' },
+  { code: 'DE', name: 'Delaware' },
+  { code: 'DC', name: 'District of Columbia' },
+  { code: 'FL', name: 'Florida' },
+  { code: 'GA', name: 'Georgia' },
+  { code: 'HI', name: 'Hawaii' },
+  { code: 'ID', name: 'Idaho' },
+  { code: 'IL', name: 'Illinois' },
+  { code: 'IN', name: 'Indiana' },
+  { code: 'IA', name: 'Iowa' },
+  { code: 'KS', name: 'Kansas' },
+  { code: 'KY', name: 'Kentucky' },
+  { code: 'LA', name: 'Louisiana' },
+  { code: 'ME', name: 'Maine' },
+  { code: 'MD', name: 'Maryland' },
+  { code: 'MA', name: 'Massachusetts' },
+  { code: 'MI', name: 'Michigan' },
+  { code: 'MN', name: 'Minnesota' },
+  { code: 'MS', name: 'Mississippi' },
+  { code: 'MO', name: 'Missouri' },
+  { code: 'MT', name: 'Montana' },
+  { code: 'NE', name: 'Nebraska' },
+  { code: 'NV', name: 'Nevada' },
+  { code: 'NH', name: 'New Hampshire' },
+  { code: 'NJ', name: 'New Jersey' },
+  { code: 'NM', name: 'New Mexico' },
+  { code: 'NY', name: 'New York' },
+  { code: 'NC', name: 'North Carolina' },
+  { code: 'ND', name: 'North Dakota' },
+  { code: 'OH', name: 'Ohio' },
+  { code: 'OK', name: 'Oklahoma' },
+  { code: 'OR', name: 'Oregon' },
+  { code: 'PA', name: 'Pennsylvania' },
+  { code: 'RI', name: 'Rhode Island' },
+  { code: 'SC', name: 'South Carolina' },
+  { code: 'SD', name: 'South Dakota' },
+  { code: 'TN', name: 'Tennessee' },
+  { code: 'TX', name: 'Texas' },
+  { code: 'UT', name: 'Utah' },
+  { code: 'VT', name: 'Vermont' },
+  { code: 'VA', name: 'Virginia' },
+  { code: 'WA', name: 'Washington' },
+  { code: 'WV', name: 'West Virginia' },
+  { code: 'WI', name: 'Wisconsin' },
+  { code: 'WY', name: 'Wyoming' },
+];
+
 const INCOME_BRACKETS = [
   { id: '0-30000', label: '$0 - $30,000', publicKey: 'latest.cost.net_price.public.by_income_level.0-30000', privateKey: 'latest.cost.net_price.private.by_income_level.0-30000' },
   { id: '30001-48000', label: '$30,001 - $48,000', publicKey: 'latest.cost.net_price.public.by_income_level.30001-48000', privateKey: 'latest.cost.net_price.private.by_income_level.30001-48000' },
@@ -65,6 +120,7 @@ export default function ComparePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBracket, setSelectedBracket] = useState(INCOME_BRACKETS[2]); // Default to middle bracket
   const [selectedSchools, setSelectedSchools] = useState<School[]>([]);
+  const [homeState, setHomeState] = useState('');
 
   useEffect(() => {
     fetch('/api/schools')
@@ -146,7 +202,28 @@ export default function ComparePage() {
       <div className="container mx-auto px-4 py-8">
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Home State Selector */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Your Home State
+              </label>
+              <select
+                value={homeState}
+                onChange={(e) => setHomeState(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              >
+                {US_STATES.map((state) => (
+                  <option key={state.code} value={state.code}>
+                    {state.name}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-xs text-gray-500">
+                We&apos;ll flag in-state schools for you
+              </p>
+            </div>
+
             {/* Income Bracket Selector */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -236,8 +313,13 @@ export default function ComparePage() {
                   {selectedSchools.map((school) => (
                     <tr key={school.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-gray-900 flex items-center gap-2">
                           {school['school.name']}
+                          {homeState && school['school.state'] === homeState && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                              In-State
+                            </span>
+                          )}
                         </div>
                         <div className="text-sm text-gray-500">
                           {school['school.city']}, {school['school.state']}
