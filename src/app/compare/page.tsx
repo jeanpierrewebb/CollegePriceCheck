@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import { getAliasMatches } from '@/lib/schoolAliases';
 
 interface School {
   id: number;
@@ -81,12 +82,26 @@ export default function ComparePage() {
   const filteredSchools = useMemo(() => {
     if (!searchQuery.trim()) return [];
     const query = searchQuery.toLowerCase();
+    const aliasMatches = getAliasMatches(query);
+    
     return schools
-      .filter((school) =>
-        school['school.name']?.toLowerCase().includes(query) ||
-        school['school.city']?.toLowerCase().includes(query) ||
-        school['school.state']?.toLowerCase().includes(query)
-      )
+      .filter((school) => {
+        const schoolName = school['school.name']?.toLowerCase() || '';
+        const schoolCity = school['school.city']?.toLowerCase() || '';
+        const schoolState = school['school.state']?.toLowerCase() || '';
+        
+        // Direct match on name, city, or state
+        if (schoolName.includes(query) || schoolCity.includes(query) || schoolState.includes(query)) {
+          return true;
+        }
+        
+        // Check if any alias matches this school
+        if (aliasMatches.length > 0) {
+          return aliasMatches.some(alias => schoolName.includes(alias));
+        }
+        
+        return false;
+      })
       .slice(0, 10);
   }, [schools, searchQuery]);
 
