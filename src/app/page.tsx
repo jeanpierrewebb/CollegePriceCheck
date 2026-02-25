@@ -1,22 +1,11 @@
 import Link from "next/link";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      {/* Nav - flush left, minimal */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-cream/95 backdrop-blur-sm border-b border-stone-light">
-        <div className="flex items-center justify-between px-6 md:px-12 py-4">
-          <span className="font-display font-black text-xl tracking-tight">
-            CPC
-          </span>
-          <Link
-            href="/compare"
-            className="text-sm font-medium text-rust hover:text-rust-dark transition-colors link-underline"
-          >
-            Compare Now
-          </Link>
-        </div>
-      </nav>
+      <Nav />
 
       {/* Hero - asymmetric, editorial */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-24">
@@ -28,15 +17,15 @@ export default function Home() {
               <span className="text-rust">deliberately opaque.</span>
             </h1>
           </div>
-          
+
           {/* Subtext - offset, narrower column */}
           <div className="col-span-12 md:col-span-6 md:col-start-2 lg:col-span-5 lg:col-start-2 mt-8 md:mt-12">
             <p className="text-lg md:text-xl text-stone-warm leading-relaxed">
-              Sticker price means nothing. We show you what families in your income bracket 
+              Sticker price means nothing. We show you what families in your income bracket
               actually paid — pulled directly from federal data.
             </p>
           </div>
-          
+
           {/* CTA - not centered, sits in the grid */}
           <div className="col-span-12 md:col-span-6 md:col-start-2 mt-10">
             <Link
@@ -44,7 +33,7 @@ export default function Home() {
               className="inline-flex items-center gap-3 bg-ink text-cream px-8 py-4 font-medium hover:bg-rust transition-colors duration-300"
             >
               <span>See Real Prices</span>
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true">&rarr;</span>
             </Link>
             <p className="mt-4 text-sm text-stone-warm">
               1,983 schools. No account needed.
@@ -87,32 +76,32 @@ export default function Home() {
                 How it<br />works
               </h2>
             </div>
-            
+
             {/* Steps - stacked, not in cards */}
             <div className="col-span-12 md:col-span-7 md:col-start-6 space-y-16">
               <div className="border-t-2 border-ink pt-6">
                 <span className="font-display font-thin text-4xl text-rust">01</span>
                 <h3 className="font-display font-black text-xl mt-4 mb-3">Pick your bracket</h3>
                 <p className="text-stone-warm leading-relaxed max-w-md">
-                  Select your household income. Federal data breaks costs down by five brackets, 
+                  Select your household income. Federal data breaks costs down by five brackets,
                   from under $30k to over $110k.
                 </p>
               </div>
-              
+
               <div className="border-t-2 border-ink pt-6">
                 <span className="font-display font-thin text-4xl text-rust">02</span>
                 <h3 className="font-display font-black text-xl mt-4 mb-3">Add schools</h3>
                 <p className="text-stone-warm leading-relaxed max-w-md">
-                  Search by name. Add up to ten. We pull net price, graduation rate, 
+                  Search by name. Add up to ten. We pull net price, graduation rate,
                   and median debt for each.
                 </p>
               </div>
-              
+
               <div className="border-t-2 border-ink pt-6">
                 <span className="font-display font-thin text-4xl text-rust">03</span>
                 <h3 className="font-display font-black text-xl mt-4 mb-3">Compare</h3>
                 <p className="text-stone-warm leading-relaxed max-w-md">
-                  See real costs side-by-side. No marketing spin. 
+                  See real costs side-by-side. No marketing spin.
                   Just what families like yours actually paid.
                 </p>
               </div>
@@ -127,11 +116,11 @@ export default function Home() {
           <div className="grid grid-cols-12 gap-8">
             <div className="col-span-12 lg:col-span-8 lg:col-start-3">
               <blockquote className="font-display font-black text-display-md text-ink">
-                "The average family overestimates college costs by 
-                <span className="text-rust"> $10,000 per year</span>."
+                &ldquo;The average family overestimates college costs by
+                <span className="text-rust"> $10,000 per year</span>.&rdquo;
               </blockquote>
               <p className="mt-6 text-stone-warm">
-                — Sallie Mae, "How America Pays for College" 2023
+                — Sallie Mae, &ldquo;How America Pays for College&rdquo; 2023
               </p>
             </div>
           </div>
@@ -151,24 +140,14 @@ export default function Home() {
                 className="inline-flex items-center gap-3 bg-rust text-cream px-8 py-4 font-medium hover:bg-rust-dark transition-colors duration-300"
               >
                 <span>Compare Colleges</span>
-                <span aria-hidden="true">→</span>
+                <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer - sparse, left-aligned */}
-      <footer className="border-t border-stone-light py-8">
-        <div className="px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <p className="text-sm text-stone-warm">
-            Data: U.S. Department of Education College Scorecard
-          </p>
-          <p className="text-sm text-stone-warm">
-            © {new Date().getFullYear()}
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
