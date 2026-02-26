@@ -28,15 +28,23 @@ export default function Home() {
 
           {/* CTA - not centered, sits in the grid */}
           <div className="col-span-12 md:col-span-6 md:col-start-2 mt-10">
-            <Link
-              href="/compare"
-              className="inline-flex items-center gap-3 bg-ink text-cream px-8 py-4 font-medium hover:bg-rust transition-colors duration-300"
-            >
-              <span>See Real Prices</span>
-              <span aria-hidden="true">&rarr;</span>
-            </Link>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                href="/onboarding"
+                className="inline-flex items-center gap-3 bg-ink text-cream px-8 py-4 font-medium hover:bg-rust transition-colors duration-300"
+              >
+                <span>Start My Profile</span>
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+              <Link
+                href="/compare"
+                className="text-rust hover:text-rust-dark transition-colors font-medium"
+              >
+                Quick Compare &rarr;
+              </Link>
+            </div>
             <p className="mt-4 text-sm text-stone-warm">
-              1,983 schools. No account needed.
+              1,983 schools. Personalized to your family&apos;s situation.
             </p>
           </div>
         </div>
@@ -135,13 +143,21 @@ export default function Home() {
               <h2 className="font-display font-black text-display-lg text-ink mb-8">
                 Stop guessing.
               </h2>
-              <Link
-                href="/compare"
-                className="inline-flex items-center gap-3 bg-rust text-cream px-8 py-4 font-medium hover:bg-rust-dark transition-colors duration-300"
-              >
-                <span>Compare Colleges</span>
-                <span aria-hidden="true">&rarr;</span>
-              </Link>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link
+                  href="/onboarding"
+                  className="inline-flex items-center gap-3 bg-rust text-cream px-8 py-4 font-medium hover:bg-rust-dark transition-colors duration-300"
+                >
+                  <span>Get My Estimate</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </Link>
+                <Link
+                  href="/compare"
+                  className="text-ink hover:text-rust transition-colors font-medium"
+                >
+                  Quick Compare &rarr;
+                </Link>
+              </div>
             </div>
           </div>
         </div>
