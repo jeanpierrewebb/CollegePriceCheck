@@ -64,10 +64,13 @@ export interface FamilyProfile {
   balance529: string;
   specialCircumstances: string[];
   
-  // Step 3: Student profile (future)
-  studentGPA?: string;
-  satScore?: string;
-  actScore?: string;
+  // Step 3: Student profile
+  studentGPA: string;
+  weightedGPA: string;
+  satScore: string;
+  actScore: string;
+  classRank: string;
+  intendedMajor: string;
 }
 
 export const INCOME_BRACKETS = [
@@ -187,6 +190,34 @@ export const SPECIAL_CIRCUMSTANCES = [
   { id: 'other', label: 'Other unusual circumstances' },
 ];
 
+// Step 3: Student profile options
+export const CLASS_RANK_OPTIONS = [
+  { value: '', label: 'Select class rank' },
+  { value: 'top-10', label: 'Top 10%' },
+  { value: 'top-25', label: 'Top 25%' },
+  { value: 'top-50', label: 'Top 50%' },
+  { value: 'bottom-50', label: 'Bottom 50%' },
+  { value: 'not-ranked', label: 'School doesn\'t rank' },
+];
+
+export const INTENDED_MAJOR_OPTIONS = [
+  { value: '', label: 'Select intended major' },
+  { value: 'undecided', label: 'Undecided' },
+  { value: 'business', label: 'Business / Finance' },
+  { value: 'engineering', label: 'Engineering' },
+  { value: 'computer-science', label: 'Computer Science' },
+  { value: 'nursing', label: 'Nursing / Healthcare' },
+  { value: 'biology', label: 'Biology / Pre-Med' },
+  { value: 'psychology', label: 'Psychology' },
+  { value: 'communications', label: 'Communications / Media' },
+  { value: 'education', label: 'Education' },
+  { value: 'arts', label: 'Fine Arts / Design' },
+  { value: 'humanities', label: 'Humanities / English' },
+  { value: 'social-sciences', label: 'Social Sciences' },
+  { value: 'stem-other', label: 'Other STEM' },
+  { value: 'other', label: 'Other' },
+];
+
 export const DEFAULT_PROFILE: FamilyProfile = {
   householdIncome: '48001-75000',
   homeState: '',
@@ -196,4 +227,10 @@ export const DEFAULT_PROFILE: FamilyProfile = {
   homeEquity: '',
   balance529: '',
   specialCircumstances: [],
+  studentGPA: '',
+  weightedGPA: '',
+  satScore: '',
+  actScore: '',
+  classRank: '',
+  intendedMajor: '',
 };

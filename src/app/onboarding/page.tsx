@@ -13,6 +13,8 @@ import {
   HOME_EQUITY_OPTIONS,
   BALANCE_529_OPTIONS,
   SPECIAL_CIRCUMSTANCES,
+  CLASS_RANK_OPTIONS,
+  INTENDED_MAJOR_OPTIONS,
   DEFAULT_PROFILE,
 } from '@/lib/types';
 
@@ -301,7 +303,7 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 3: Student Profile (placeholder for now) */}
+          {/* Step 3: Student Profile */}
           {currentStep === 3 && (
             <div className="space-y-10">
               <div>
@@ -309,14 +311,118 @@ export default function OnboardingPage() {
                   About the student
                 </h1>
                 <p className="text-stone-warm">
-                  Optional: Add academic info for merit aid estimates.
+                  Academic info helps us estimate merit aid and admissions chances.
                 </p>
               </div>
 
-              <div className="bg-stone-light/50 rounded-lg p-8 text-center">
-                <p className="text-stone-warm">
-                  Coming soon: GPA, test scores, and interests for reach/match/safety and merit aid predictions.
+              {/* GPA - Unweighted */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  Unweighted GPA
+                </label>
+                <p className="text-sm text-stone-warm">
+                  On a 4.0 scale. Leave blank if unknown.
                 </p>
+                <input
+                  type="text"
+                  value={profile.studentGPA}
+                  onChange={(e) => updateProfile('studentGPA', e.target.value)}
+                  placeholder="e.g., 3.7"
+                  className="w-full border-2 border-stone-light rounded-lg px-4 py-3 text-lg focus:border-rust focus:outline-none transition-colors bg-white"
+                />
+              </div>
+
+              {/* GPA - Weighted */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  Weighted GPA <span className="font-normal text-stone-warm">(optional)</span>
+                </label>
+                <p className="text-sm text-stone-warm">
+                  If your school uses weighted GPAs (often above 4.0).
+                </p>
+                <input
+                  type="text"
+                  value={profile.weightedGPA}
+                  onChange={(e) => updateProfile('weightedGPA', e.target.value)}
+                  placeholder="e.g., 4.2"
+                  className="w-full border-2 border-stone-light rounded-lg px-4 py-3 text-lg focus:border-rust focus:outline-none transition-colors bg-white"
+                />
+              </div>
+
+              {/* SAT Score */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  SAT score
+                </label>
+                <p className="text-sm text-stone-warm">
+                  Total score (400-1600). Many schools are test-optional now.
+                </p>
+                <input
+                  type="text"
+                  value={profile.satScore}
+                  onChange={(e) => updateProfile('satScore', e.target.value)}
+                  placeholder="e.g., 1350 or leave blank"
+                  className="w-full border-2 border-stone-light rounded-lg px-4 py-3 text-lg focus:border-rust focus:outline-none transition-colors bg-white"
+                />
+              </div>
+
+              {/* ACT Score */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  ACT score
+                </label>
+                <p className="text-sm text-stone-warm">
+                  Composite score (1-36). Leave blank if not taken.
+                </p>
+                <input
+                  type="text"
+                  value={profile.actScore}
+                  onChange={(e) => updateProfile('actScore', e.target.value)}
+                  placeholder="e.g., 28 or leave blank"
+                  className="w-full border-2 border-stone-light rounded-lg px-4 py-3 text-lg focus:border-rust focus:outline-none transition-colors bg-white"
+                />
+              </div>
+
+              {/* Class Rank */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  Class rank
+                </label>
+                <p className="text-sm text-stone-warm">
+                  Many schools no longer rank students - that&apos;s fine.
+                </p>
+                <select
+                  value={profile.classRank}
+                  onChange={(e) => updateProfile('classRank', e.target.value)}
+                  className="w-full border-2 border-stone-light rounded-lg px-4 py-3 text-lg focus:border-rust focus:outline-none transition-colors bg-white"
+                >
+                  {CLASS_RANK_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Intended Major */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  Intended major
+                </label>
+                <p className="text-sm text-stone-warm">
+                  Some majors (engineering, nursing) may cost more at certain schools.
+                </p>
+                <select
+                  value={profile.intendedMajor}
+                  onChange={(e) => updateProfile('intendedMajor', e.target.value)}
+                  className="w-full border-2 border-stone-light rounded-lg px-4 py-3 text-lg focus:border-rust focus:outline-none transition-colors bg-white"
+                >
+                  {INTENDED_MAJOR_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           )}
