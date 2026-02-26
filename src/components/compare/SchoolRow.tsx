@@ -69,6 +69,12 @@ export default function SchoolRow({
               {coa.isTuitionOnly && ' (Tuition Only)'}
             </div>
           )}
+          {/* Show both prices for public schools when user has a home state */}
+          {homeState && school['school.ownership'] === 1 && !isInState && school['latest.cost.tuition.in_state'] && (
+            <div className="text-xs text-forest mt-1">
+              In-state: {formatCurrency(school['latest.cost.tuition.in_state'])}
+            </div>
+          )}
           {!homeState && school['school.ownership'] === 1 && (
             <div className="text-xs text-rust">Set home state</div>
           )}
@@ -79,6 +85,10 @@ export default function SchoolRow({
           </span>
           {netPrice !== null && (
             <span className="text-xs text-stone-warm font-body">/yr</span>
+          )}
+          {/* Note for out-of-state public school viewing */}
+          {homeState && school['school.ownership'] === 1 && !isInState && (
+            <div className="text-xs text-stone-warm mt-1">Avg. all students</div>
           )}
         </td>
         <td className={`px-6 py-4 text-right font-display font-black ${getDebtColor(debt)}`}>
