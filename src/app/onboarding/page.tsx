@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -20,10 +20,29 @@ import {
 
 const TOTAL_STEPS = 3;
 
+const STORAGE_KEY = 'collegepricecheck_profile';
+const PROFILE_VERSION = 1;
+
 export default function OnboardingPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [profile, setProfile] = useState<FamilyProfile>(DEFAULT_PROFILE);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load saved profile on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Merge with defaults to handle any missing fields from older versions
+        setProfile({ ...DEFAULT_PROFILE, ...parsed.profile || parsed });
+      }
+    } catch (e) {
+      console.error('Failed to load profile:', e);
+    }
+    setIsLoaded(true);
+  }, []);
 
   const updateProfile = (field: keyof FamilyProfile, value: string | number | string[]) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
@@ -42,7 +61,8 @@ export default function OnboardingPage() {
       setCurrentStep(currentStep + 1);
     } else {
       // Final step - save to localStorage and redirect
-      localStorage.setItem('collegepricecheck_profile', JSON.stringify(profile));
+      const data = { version: PROFILE_VERSION, profile, savedAt: new Date().toISOString() };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       router.push('/compare');
     }
   };
@@ -55,8 +75,15 @@ export default function OnboardingPage() {
 
   const handleSkip = () => {
     // Go directly to compare with defaults
-    localStorage.setItem('collegepricecheck_profile', JSON.stringify(DEFAULT_PROFILE));
+    const data = { version: PROFILE_VERSION, profile: DEFAULT_PROFILE, savedAt: new Date().toISOString() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     router.push('/compare');
+  };
+
+  const handleClearData = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setProfile(DEFAULT_PROFILE);
+    setCurrentStep(1);
   };
 
   return (
@@ -446,6 +473,16 @@ export default function OnboardingPage() {
             >
               <span>{currentStep === TOTAL_STEPS ? 'See colleges' : 'Continue'}</span>
               <span aria-hidden="true">→</span>
+            </button>
+          </div>
+
+          {/* Clear data option */}
+          <div className="mt-16 pt-8 border-t border-stone-light text-center">
+            <button
+              onClick={handleClearData}
+              className="text-sm text-stone-warm hover:text-rust transition-colors"
+            >
+              Clear my data and start over
             </button>
           </div>
         </div>

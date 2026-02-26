@@ -42,6 +42,32 @@ export default function ComparePage() {
       });
   }, []);
 
+  // Load saved profile from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('collegepricecheck_profile');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const profile = parsed.profile || parsed;
+        
+        // Set home state if available
+        if (profile.homeState) {
+          setHomeState(profile.homeState);
+        }
+        
+        // Set income bracket if available
+        if (profile.householdIncome) {
+          const bracket = INCOME_BRACKETS.find(b => b.id === profile.householdIncome);
+          if (bracket) {
+            setSelectedBracket(bracket);
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load profile:', e);
+    }
+  }, []);
+
   const filteredSchools = useMemo(() => {
     if (!searchQuery.trim()) return [];
     const query = searchQuery.toLowerCase();
@@ -162,9 +188,17 @@ export default function ComparePage() {
     <main className="min-h-screen bg-cream">
       <Nav
         rightContent={
-          <span className="text-sm text-stone-warm">
-            {selectedSchools.length}/10 schools
-          </span>
+          <div className="flex items-center gap-4">
+            <a
+              href="/onboarding"
+              className="text-sm text-stone-warm hover:text-rust transition-colors"
+            >
+              Edit Profile
+            </a>
+            <span className="text-sm text-stone-warm">
+              {selectedSchools.length}/10 schools
+            </span>
+          </div>
         }
       />
 
