@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import ControlPanel from '@/components/compare/ControlPanel';
 import ComparisonTable from '@/components/compare/ComparisonTable';
 import EmptyState from '@/components/compare/EmptyState';
+import SAIDisplay from '@/components/SAIDisplay';
 
 const DEFAULT_SORT_DIRECTIONS: Record<SortField, 'asc' | 'desc'> = {
   name: 'asc',
@@ -224,6 +225,11 @@ export default function ComparePage() {
           onAddSchool={addSchool}
           selectedCount={selectedSchools.length}
         />
+
+        {/* SAI Estimate */}
+        <div className="px-6 md:px-12 py-4">
+          <SAIDisplay />
+        </div>
 
         {selectedSchools.length > 0 ? (
           <ComparisonTable
