@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { School, IncomeBracket } from '@/lib/types';
 import { formatCurrency, formatPercent, getDebtColor, getNetPrice, getCOA } from '@/lib/formatters';
 import { classifySchool, getStudentProfile, AdmissionResult } from '@/lib/admissionChances';
+import { estimateMeritAid, MeritAidResult } from '@/lib/meritAid';
 import BracketBreakdown from './BracketBreakdown';
 import CostProjection from './CostProjection';
 import DebtReality from './DebtReality';
@@ -32,11 +33,15 @@ export default function SchoolRow({
   const isInState = homeState !== '' && school['school.state'] === homeState;
   
   const [admissionResult, setAdmissionResult] = useState<AdmissionResult | null>(null);
+  const [meritResult, setMeritResult] = useState<MeritAidResult | null>(null);
   
   useEffect(() => {
     const profile = getStudentProfile();
-    const result = classifySchool(school, profile);
-    setAdmissionResult(result);
+    const admission = classifySchool(school, profile);
+    setAdmissionResult(admission);
+    
+    const merit = estimateMeritAid(school, profile, admission.chance);
+    setMeritResult(merit);
   }, [school]);
 
   return (
@@ -136,6 +141,22 @@ export default function SchoolRow({
                 <div className="space-y-8">
                   <CostProjection netPrice={netPrice} />
                   <DebtReality debt={debt} bracket={bracket} />
+                  
+                  {/* Merit Aid Estimate */}
+                  {meritResult && meritResult.likelihood !== 'unknown' && (
+                    <div className="border-t border-stone-light pt-6">
+                      <h4 className="font-display font-black text-sm text-ink mb-2">Merit Aid Estimate</h4>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className={`px-2 py-1 text-xs font-medium rounded ${meritResult.color} bg-stone-light`}>
+                          {meritResult.label}
+                        </span>
+                      </div>
+                      <p className="text-sm text-stone-warm">{meritResult.explanation}</p>
+                      <p className="text-xs text-stone-warm mt-2 italic">
+                        Note: Actual awards vary. Apply for specific scholarships at each school.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
