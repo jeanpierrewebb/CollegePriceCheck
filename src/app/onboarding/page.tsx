@@ -9,6 +9,10 @@ import {
   US_STATES,
   MARITAL_STATUS_OPTIONS,
   CHILDREN_IN_COLLEGE_OPTIONS,
+  SAVINGS_OPTIONS,
+  HOME_EQUITY_OPTIONS,
+  BALANCE_529_OPTIONS,
+  SPECIAL_CIRCUMSTANCES,
   DEFAULT_PROFILE,
 } from '@/lib/types';
 
@@ -19,8 +23,16 @@ export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [profile, setProfile] = useState<FamilyProfile>(DEFAULT_PROFILE);
 
-  const updateProfile = (field: keyof FamilyProfile, value: string | number) => {
+  const updateProfile = (field: keyof FamilyProfile, value: string | number | string[]) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const toggleSpecialCircumstance = (id: string) => {
+    const current = profile.specialCircumstances || [];
+    const updated = current.includes(id)
+      ? current.filter((c) => c !== id)
+      : [...current, id];
+    updateProfile('specialCircumstances', updated);
   };
 
   const handleContinue = () => {
@@ -186,7 +198,7 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 2: Financial Profile (placeholder for now) */}
+          {/* Step 2: Financial Profile */}
           {currentStep === 2 && (
             <div className="space-y-10">
               <div>
@@ -194,14 +206,97 @@ export default function OnboardingPage() {
                   Financial details
                 </h1>
                 <p className="text-stone-warm">
-                  Optional: Add more details for a better estimate.
+                  Optional but helpful - these affect your expected family contribution.
                 </p>
               </div>
 
-              <div className="bg-stone-light/50 rounded-lg p-8 text-center">
-                <p className="text-stone-warm">
-                  Coming soon: Assets, home equity, and savings inputs for more accurate FAFSA SAI estimates.
+              {/* Savings & Investments */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  Total savings and investments
+                </label>
+                <p className="text-sm text-stone-warm">
+                  Include checking, savings, stocks, and other investments (not retirement accounts).
                 </p>
+                <select
+                  value={profile.savingsInvestments}
+                  onChange={(e) => updateProfile('savingsInvestments', e.target.value)}
+                  className="w-full border-2 border-stone-light rounded-lg px-4 py-3 text-lg focus:border-rust focus:outline-none transition-colors bg-white"
+                >
+                  {SAVINGS_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Home Equity */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  Home equity
+                </label>
+                <p className="text-sm text-stone-warm">
+                  Home value minus mortgage balance. Matters for CSS Profile schools (mostly private colleges).
+                </p>
+                <select
+                  value={profile.homeEquity}
+                  onChange={(e) => updateProfile('homeEquity', e.target.value)}
+                  className="w-full border-2 border-stone-light rounded-lg px-4 py-3 text-lg focus:border-rust focus:outline-none transition-colors bg-white"
+                >
+                  {HOME_EQUITY_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* 529 Balance */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  529 college savings plan balance
+                </label>
+                <p className="text-sm text-stone-warm">
+                  529 assets are counted as parental assets, which affects aid at a lower rate than student assets.
+                </p>
+                <select
+                  value={profile.balance529}
+                  onChange={(e) => updateProfile('balance529', e.target.value)}
+                  className="w-full border-2 border-stone-light rounded-lg px-4 py-3 text-lg focus:border-rust focus:outline-none transition-colors bg-white"
+                >
+                  {BALANCE_529_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Special Circumstances */}
+              <div className="space-y-3">
+                <label className="block font-medium text-ink">
+                  Any special circumstances?
+                </label>
+                <p className="text-sm text-stone-warm">
+                  These can be grounds for a financial aid appeal. Check any that apply.
+                </p>
+                <div className="space-y-3">
+                  {SPECIAL_CIRCUMSTANCES.map((circumstance) => (
+                    <label
+                      key={circumstance.id}
+                      className="flex items-center gap-3 p-3 rounded-lg border-2 border-stone-light bg-white cursor-pointer hover:border-rust transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={profile.specialCircumstances?.includes(circumstance.id) || false}
+                        onChange={() => toggleSpecialCircumstance(circumstance.id)}
+                        className="w-5 h-5 rounded border-stone-light text-rust focus:ring-rust"
+                      />
+                      <span className="text-ink">{circumstance.label}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
           )}

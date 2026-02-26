@@ -58,16 +58,16 @@ export interface FamilyProfile {
   childrenInCollege: number;
   maritalStatus: 'married' | 'single' | 'separated' | 'widowed' | '';
   
-  // Step 2: Financial profile (future)
-  assets?: number;
-  homeEquity?: number;
+  // Step 2: Financial profile
+  savingsInvestments: string;
+  homeEquity: string;
+  balance529: string;
+  specialCircumstances: string[];
   
   // Step 3: Student profile (future)
-  studentGPA?: number;
-  testScores?: {
-    sat?: number;
-    act?: number;
-  };
+  studentGPA?: string;
+  satScore?: string;
+  actScore?: string;
 }
 
 export const INCOME_BRACKETS = [
@@ -148,9 +148,52 @@ export const CHILDREN_IN_COLLEGE_OPTIONS = [
   { value: 4, label: '4+' },
 ];
 
+// Step 2: Financial profile options
+export const SAVINGS_OPTIONS = [
+  { value: '', label: 'Select range' },
+  { value: 'under-25k', label: 'Less than $25,000' },
+  { value: '25k-50k', label: '$25,000 - $50,000' },
+  { value: '50k-100k', label: '$50,000 - $100,000' },
+  { value: '100k-250k', label: '$100,000 - $250,000' },
+  { value: 'over-250k', label: 'More than $250,000' },
+  { value: 'prefer-not', label: 'Prefer not to say' },
+];
+
+export const HOME_EQUITY_OPTIONS = [
+  { value: '', label: 'Select option' },
+  { value: 'rent', label: 'I rent (no home equity)' },
+  { value: 'under-100k', label: 'Less than $100,000 equity' },
+  { value: '100k-250k', label: '$100,000 - $250,000 equity' },
+  { value: '250k-500k', label: '$250,000 - $500,000 equity' },
+  { value: 'over-500k', label: 'More than $500,000 equity' },
+  { value: 'prefer-not', label: 'Prefer not to say' },
+];
+
+export const BALANCE_529_OPTIONS = [
+  { value: '', label: 'Select range' },
+  { value: 'none', label: 'No 529 plan' },
+  { value: 'under-25k', label: 'Less than $25,000' },
+  { value: '25k-50k', label: '$25,000 - $50,000' },
+  { value: '50k-100k', label: '$50,000 - $100,000' },
+  { value: 'over-100k', label: 'More than $100,000' },
+  { value: 'prefer-not', label: 'Prefer not to say' },
+];
+
+export const SPECIAL_CIRCUMSTANCES = [
+  { id: 'job-loss', label: 'Recent job loss or income reduction' },
+  { id: 'medical', label: 'Significant medical expenses' },
+  { id: 'divorce', label: 'Divorce or separation in progress' },
+  { id: 'eldercare', label: 'Supporting elderly parents' },
+  { id: 'other', label: 'Other unusual circumstances' },
+];
+
 export const DEFAULT_PROFILE: FamilyProfile = {
   householdIncome: '48001-75000',
   homeState: '',
   childrenInCollege: 1,
   maritalStatus: '',
+  savingsInvestments: '',
+  homeEquity: '',
+  balance529: '',
+  specialCircumstances: [],
 };
