@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { getAliasMatches } from '@/lib/schoolAliases';
 import { School, IncomeBracket, SortField, SortConfig } from '@/lib/types';
 import { INCOME_BRACKETS, DEFAULT_BRACKET_INDEX } from '@/lib/constants';
@@ -9,7 +9,7 @@ import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import ControlPanel from '@/components/compare/ControlPanel';
 import ComparisonTable from '@/components/compare/ComparisonTable';
-import EmptyState from '@/components/compare/EmptyState';
+import WelcomeResults from '@/components/compare/WelcomeResults';
 import SAIDisplay from '@/components/SAIDisplay';
 
 const DEFAULT_SORT_DIRECTIONS: Record<SortField, 'asc' | 'desc'> = {
@@ -29,6 +29,13 @@ export default function ComparePage() {
   const [homeState, setHomeState] = useState('');
   const [expandedSchools, setExpandedSchools] = useState<Set<number>>(new Set());
   const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const focusSearch = useCallback(() => {
+    searchInputRef.current?.focus();
+    // Scroll to top so search is visible
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   useEffect(() => {
     fetch('/api/schools')
@@ -215,6 +222,7 @@ export default function ComparePage() {
         </div>
 
         <ControlPanel
+          ref={searchInputRef}
           homeState={homeState}
           onHomeStateChange={setHomeState}
           selectedBracket={selectedBracket}
@@ -226,24 +234,25 @@ export default function ComparePage() {
           selectedCount={selectedSchools.length}
         />
 
-        {/* SAI Estimate */}
-        <div className="px-6 md:px-12 py-4">
-          <SAIDisplay />
-        </div>
-
         {selectedSchools.length > 0 ? (
-          <ComparisonTable
-            schools={sortedSchools}
-            selectedBracket={selectedBracket}
-            homeState={homeState}
-            expandedSchools={expandedSchools}
-            onToggleExpand={toggleExpand}
-            onRemoveSchool={removeSchool}
-            sortConfig={sortConfig}
-            onSort={handleSort}
-          />
+          <>
+            {/* SAI Estimate - compact when schools are shown */}
+            <div className="px-6 md:px-12 py-4">
+              <SAIDisplay />
+            </div>
+            <ComparisonTable
+              schools={sortedSchools}
+              selectedBracket={selectedBracket}
+              homeState={homeState}
+              expandedSchools={expandedSchools}
+              onToggleExpand={toggleExpand}
+              onRemoveSchool={removeSchool}
+              sortConfig={sortConfig}
+              onSort={handleSort}
+            />
+          </>
         ) : (
-          <EmptyState />
+          <WelcomeResults onSearchFocus={focusSearch} />
         )}
 
         {/* Data source */}

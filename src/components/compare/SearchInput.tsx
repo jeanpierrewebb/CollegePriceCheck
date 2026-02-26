@@ -1,5 +1,6 @@
 'use client';
 
+import { forwardRef } from 'react';
 import { School } from '@/lib/types';
 
 interface SearchInputProps {
@@ -10,13 +11,13 @@ interface SearchInputProps {
   maxReached: boolean;
 }
 
-export default function SearchInput({
+const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(function SearchInput({
   searchQuery,
   onSearchChange,
   filteredSchools,
   onAddSchool,
   maxReached,
-}: SearchInputProps) {
+}, ref) {
   return (
     <div>
       <label className="block text-xs font-medium uppercase tracking-wider text-stone-warm mb-2">
@@ -24,6 +25,7 @@ export default function SearchInput({
       </label>
       <div className="relative">
         <input
+          ref={ref}
           type="text"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
@@ -57,4 +59,6 @@ export default function SearchInput({
       </div>
     </div>
   );
-}
+});
+
+export default SearchInput;

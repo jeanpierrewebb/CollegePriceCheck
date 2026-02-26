@@ -1,5 +1,6 @@
 'use client';
 
+import { forwardRef } from 'react';
 import { School, IncomeBracket } from '@/lib/types';
 import { US_STATES, INCOME_BRACKETS } from '@/lib/constants';
 import SearchInput from './SearchInput';
@@ -16,7 +17,7 @@ interface ControlPanelProps {
   selectedCount: number;
 }
 
-export default function ControlPanel({
+const ControlPanel = forwardRef<HTMLInputElement, ControlPanelProps>(function ControlPanel({
   homeState,
   onHomeStateChange,
   selectedBracket,
@@ -26,7 +27,7 @@ export default function ControlPanel({
   filteredSchools,
   onAddSchool,
   selectedCount,
-}: ControlPanelProps) {
+}, ref) {
   return (
     <section className="px-6 md:px-12 pb-8">
       <div className="grid grid-cols-12 gap-6">
@@ -75,6 +76,7 @@ export default function ControlPanel({
 
         <div className="col-span-12 md:col-span-6">
           <SearchInput
+            ref={ref}
             searchQuery={searchQuery}
             onSearchChange={onSearchChange}
             filteredSchools={filteredSchools}
@@ -85,4 +87,6 @@ export default function ControlPanel({
       </div>
     </section>
   );
-}
+});
+
+export default ControlPanel;
