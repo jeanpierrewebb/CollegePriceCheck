@@ -1,7 +1,9 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { School, IncomeBracket } from '@/lib/types';
 import { formatCurrency, formatPercent, getDebtColor, getNetPrice, getCOA } from '@/lib/formatters';
+import { classifySchool, getStudentProfile, AdmissionResult } from '@/lib/admissionChances';
 import BracketBreakdown from './BracketBreakdown';
 import CostProjection from './CostProjection';
 import DebtReality from './DebtReality';
@@ -28,6 +30,14 @@ export default function SchoolRow({
   const gradRate = school['latest.completion.rate_suppressed.four_year'];
   const coa = getCOA(school, homeState);
   const isInState = homeState !== '' && school['school.state'] === homeState;
+  
+  const [admissionResult, setAdmissionResult] = useState<AdmissionResult | null>(null);
+  
+  useEffect(() => {
+    const profile = getStudentProfile();
+    const result = classifySchool(school, profile);
+    setAdmissionResult(result);
+  }, [school]);
 
   return (
     <>
@@ -45,11 +55,19 @@ export default function SchoolRow({
               &#9654;
             </span>
             <div>
-              <div className="font-display font-black text-ink flex items-center gap-2">
+              <div className="font-display font-black text-ink flex items-center gap-2 flex-wrap">
                 {school['school.name']}
                 {isInState && (
                   <span className="inline-flex items-center px-2 py-0.5 text-xs font-body font-medium bg-forest/10 text-forest">
                     In-State
+                  </span>
+                )}
+                {admissionResult && admissionResult.chance !== 'unknown' && (
+                  <span 
+                    className={`inline-flex items-center px-2 py-0.5 text-xs font-body font-medium ${admissionResult.bgColor} ${admissionResult.color}`}
+                    title={admissionResult.explanation}
+                  >
+                    {admissionResult.label}
                   </span>
                 )}
               </div>
